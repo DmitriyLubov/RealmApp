@@ -41,14 +41,23 @@ final class TaskListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskListCell", for: indexPath)
         var content = cell.defaultContentConfiguration()
+        
         let taskList = taskLists[indexPath.row]
+        let countTasks = taskList.tasks.count
+        let countCurrentTasks = taskList.tasks.filter("isComplete = false").count
+        
         content.text = taskList.title
-        content.secondaryText = taskList.tasks.count.formatted()
+        if countTasks > 0, countCurrentTasks == 0 {
+            cell.accessoryType = .checkmark
+        } else {
+            content.secondaryText = countCurrentTasks.formatted()
+        }
+        
         cell.contentConfiguration = content
         return cell
     }
     
-    // MARK: - Table View Data Source
+    // MARK: - Table View Delegate
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let taskList = taskLists[indexPath.row]
         
