@@ -31,7 +31,14 @@ class TasksViewController: UITableViewController {
         completedTasks = taskList.tasks.filter("isComplete = true")
     }
     
-    // MARK: - Table view data source
+    @objc private func addButtonPressed() {
+        showAlert()
+    }
+
+}
+
+// MARK: - Table view data source
+extension TasksViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
@@ -53,11 +60,6 @@ class TasksViewController: UITableViewController {
         cell.contentConfiguration = content
         return cell
     }
-    
-    @objc private func addButtonPressed() {
-        showAlert()
-    }
-
 }
 
 // MARK: - Table view delegate
@@ -100,6 +102,7 @@ extension TasksViewController {
     }
 }
 
+// MARK: - Create new task
 extension TasksViewController {
     private func showAlert(with task: Task? = nil, completion: (() -> Void)? = nil) {
         let taskAlertFactory = TaskAlertControllerFactory(
